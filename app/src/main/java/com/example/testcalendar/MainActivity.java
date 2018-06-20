@@ -190,6 +190,9 @@ public class MainActivity extends AppCompatActivity {
         int idDtEnd = cursor.getColumnIndexOrThrow(CalendarContract.Events.DTEND);
         int idRRule = cursor.getColumnIndexOrThrow(CalendarContract.Events.RRULE);
         int idRDate = cursor.getColumnIndexOrThrow(CalendarContract.Events.RDATE);
+
+        int id_calendar = 1;
+
         // Initialize the result set.
         String[] result = new String[cursor.getCount()];
         // Iterate over the result Cursor.
@@ -203,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
             String rrule = cursor.getString(idRRule);
             String rdate = cursor.getString(idRDate);
             String calId = cursor.getString(idCal);
+            id_calendar = Integer.parseInt(calId);
             result[cursor.getPosition()] = name + "(" + id + ")";
             Toast.makeText(this, name + "(" + id + ")", Toast.LENGTH_SHORT)
                     .show();
@@ -222,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
         values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
         values.put(CalendarContract.Events.TITLE, "Walk The Dog");
         values.put(CalendarContract.Events.DESCRIPTION, "My dog is bored, so we're going on a really long walk!");
-        values.put(CalendarContract.Events.CALENDAR_ID, 1); //questo dipende dal calendario sul quale voglio inserirlo!
+        values.put(CalendarContract.Events.CALENDAR_ID, id_calendar); //questo dipende dal calendario sul quale voglio inserirlo!
         Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
         // Retrieve ID for new event
         String eventID = uri.getLastPathSegment();

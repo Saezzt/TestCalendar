@@ -256,6 +256,51 @@ public class MainActivity extends AppCompatActivity {
                                 val,
                                 CalendarContract.Events._ID + " =? ",
                                 selArgs);
+
+
+        String[] projectionAlert = new String[] {
+                CalendarContract.CalendarAlerts._ID,
+                CalendarContract.CalendarAlerts.ALARM_TIME,
+                CalendarContract.CalendarAlerts.DTSTART,
+                CalendarContract.CalendarAlerts.HAS_ALARM
+        };
+
+        //ora provo a vedere i reminder/ allarmi ecc..
+        Cursor alertCursor = getContentResolver().query(
+                CalendarContract.CalendarAlerts.CONTENT_URI, projectionAlert, null, null,
+                null);
+
+        idIdx = alertCursor.getColumnIndexOrThrow(CalendarContract.CalendarAlerts._ID);
+        int alrmTimeId = alertCursor.getColumnIndexOrThrow(CalendarContract.CalendarAlerts.ALARM_TIME);
+        int alrmDtStartId = alertCursor.getColumnIndexOrThrow(CalendarContract.CalendarAlerts.DTSTART);
+        int hasAlarmId = alertCursor.getColumnIndexOrThrow(CalendarContract.CalendarAlerts.HAS_ALARM);
+
+        while(alertCursor.moveToNext()){
+            Log.d("Alert" , alertCursor.getLong(idIdx)
+                + " " + alertCursor.getLong(alrmDtStartId) + " " + alertCursor.getInt(hasAlarmId));
+        }
+
+        String[] projectionReminder = new String[] {
+                CalendarContract.Reminders._ID,
+                CalendarContract.Reminders.EVENT_ID,
+                CalendarContract.Reminders.MINUTES
+        };
+        Cursor reminderCursor = getContentResolver().query(
+                CalendarContract.Reminders.CONTENT_URI, projectionReminder, null, null,
+                null);
+
+        idIdx = reminderCursor.getColumnIndexOrThrow(CalendarContract.Reminders._ID);
+        //int descriptioReminder = alertCursor.getColumnIndexOrThrow(CalendarContract.Reminders.DESCRIPTION);
+        //int titleReminder = alertCursor.getColumnIndexOrThrow(CalendarContract.Reminders.TITLE);
+        //int dtStratReminder = reminderCursor.getColumnIndexOrThrow(CalendarContract.Reminders.DTSTART);
+        int eventIdReminder = reminderCursor.getColumnIndexOrThrow(CalendarContract.Reminders.EVENT_ID);
+        int timeBeforEventReminder = reminderCursor.getColumnIndexOrThrow(CalendarContract.Reminders.MINUTES);
+
+        while (reminderCursor.moveToNext()){
+            Log.d("REMINDERS", reminderCursor.getLong(idIdx) +  " " + reminderCursor.getLong(eventIdReminder) + " "
+                    + reminderCursor.getLong(timeBeforEventReminder));
+        }
+
     }
 
     @Override
